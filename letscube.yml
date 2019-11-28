@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: letscube-deployment
+  labels:
+    app: letscubemvc
+spec:
+  replicas: 3
+  template:
+    metadata:
+      name: letscubemvc
+      labels:
+        app: letscubemvc
+    spec:
+      containers:
+      - name: letscubemvc
+        image: letscubecontainername.azurecr.io/letscube:v2
+        imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: letscubemvc
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: letscube-service
+spec:
+  selector:
+    app: letscubemvc
+  ports:
+    - port: 80
+  type: LoadBalancer
+  
+  
